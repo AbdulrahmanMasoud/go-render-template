@@ -1,0 +1,22 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    {{block "css" .}}
+
+    {{end}}
+</head>
+<body>
+  {{block "content" .}}
+
+  {{end}}
+
+    {{block "js" .}}
+
+    {{end}}
+
+</body>
+</html>
+{{end}}
