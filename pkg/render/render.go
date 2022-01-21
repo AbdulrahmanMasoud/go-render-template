@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/AbdulrahmanMasoud/wepapp/pkg/config"
+	"github.com/AbdulrahmanMasoud/wepapp/pkg/models"
 	"html/template"
 	"log"
 	"net/http"
@@ -14,10 +15,14 @@ import (
 var functions = template.FuncMap{}
 var app *config.AppConfig
 
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
 func NewTemplates(a *config.AppConfig) {
 	app = a
 }
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 
 	var tc map[string]*template.Template
 	if app.UseCache {
@@ -33,7 +38,9 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buf := new(bytes.Buffer)
 
-	_ = t.Execute(buf, nil)
+	td = AddDefaultData(td)
+
+	_ = t.Execute(buf, td)
 
 	_, err := buf.WriteTo(w)
 	if err != nil {
